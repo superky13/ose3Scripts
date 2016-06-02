@@ -40,5 +40,5 @@ echo -e "{
    },
    \"persistentVolumeReclaimPolicy\": \"Recycle\"
    }
-}" >> /tmp/$volName.json
+}" > /tmp/$volName.json
 oc create -f /tmp/$volName.json
