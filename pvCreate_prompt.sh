@@ -1,4 +1,8 @@
 #!/bin/bash
+
+#Uncomment the following line to aid in debugging
+#set -x
+
 ## Kyle R (kritchie@redhat.com)
 ## Create a persistent volume with user defined specs
 
@@ -37,3 +41,4 @@ echo -e "{
    \"persistentVolumeReclaimPolicy\": \"Recycle\"
    }
 }" >> /tmp/$volName.json
+oc create -f /tmp/$volName.json
