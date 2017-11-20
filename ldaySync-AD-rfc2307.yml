@@ -1,0 +1,25 @@
+kind: LDAPSyncConfig
+apiVersion: v1
+url: ldap://ldap.example.com
+bindDN: "<BIND_USER>"
+bindPassword: "<PASSWORD>"
+insecure: true
+rfc2307:
+ groupsQuery:
+   baseDN: "CN=yourGroup,OU=OpenShift_Groups,DC=example,DC=com"
+   scope: sub
+   derefAliases: never
+   filter: (objectClass=*)
+   pageSize: 500
+ groupUIDAttribute: dn
+ groupNameAttributes: [ cn ]
+ groupMembershipAttributes: [ member ]
+ usersQuery:
+   baseDN: "CN=Users,DC=example,DC=com"
+   scope: sub
+   derefAliases: never
+   pageSize: 500
+ userUIDAttribute: dn
+ userNameAttributes: [ sAMAccountName ]
+ tolerateMemberNotFoundErrors: true
+ tolerateMemberOutOfScopeErrors: true

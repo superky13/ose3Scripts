@@ -1,0 +1,25 @@
+kind: LDAPSyncConfig
+apiVersion: v1
+url: ldap://idm.ky13buildbox.com
+bindDN: "uid=yourBindUser,cn=users,cn=accounts,dc=ky13buildbox,dc=com"
+bindPassword: ""
+insecure: true
+rfc2307:
+ groupsQuery:
+   baseDN: "cn=groups,cn=accounts,dc=yourDomain,dc=com"
+   scope: sub
+   filter: (objectClass=*)
+   derefAliases: never
+   pageSize: 0
+ groupUIDAttribute: dn
+ groupNameAttributes: [ cn ]
+ groupMembershipAttributes: [ member ]
+ usersQuery:
+   baseDN: "cn=users,cn=accounts,dc=yourDomain,dc=com"
+   scope: sub
+   derefAliases: never
+   pageSize: 0
+ userUIDAttribute: dn
+ userNameAttributes: [ uid ]
+ tolerateMemberNotFoundErrors: true
+ tolerateMemberOutOfScopeErrors: true
