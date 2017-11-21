@@ -1,0 +1,34 @@
+version: 0.1
+log:
+  level: debug
+http:
+  addr: :5000
+storage:
+  delete:
+    enabled: true
+  cache:
+    blobdescriptor: inmemory
+  s3:
+    accesskey: ********
+    secretkey: ********
+    region: REGION
+    bucket: BUCKET_NAME
+    encrypt: False
+    secure: true
+    v4auth: true
+    rootdirectory: /registry
+    chunksize: "26214400"
+auth:
+  openshift:
+    realm: openshift
+middleware:
+  registry:
+  - name: openshift
+  repository:
+  - name: openshift
+    options:
+      pullthrough: true
+      acceptschema2: true
+      enforcequota: true
+  storage:
+  - name: openshift

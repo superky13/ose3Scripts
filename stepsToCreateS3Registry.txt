@@ -1,0 +1,11 @@
+## Create a config.yml and populate it when the proper info (see example)
+config-S3.yml
+
+## Create a configMap using the aforementioned file
+oc create configmap registry-config --from-file=/etc/docker/config-S3.yml
+
+## Update the DC 
+oc volume dc/docker-registry --add --type=configmap --configmap-name=registry-config -m /etc/docker/registry/
+
+## Update the registry pods
+oc rollout latest docker-registry
