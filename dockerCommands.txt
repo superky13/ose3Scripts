@@ -1,0 +1,31 @@
+### Useful Docker info
+# If your docker build images are built to run as a specific user, be sure to add the following.  By default, the serviceaccount responsible for the UID of the pods will not let the container run as root (/etc/origin/master/master-config.yaml specifies the UID start range)
+
+oadm policy add-scc-to-user anyuid -z default
+
+oc edit scc anyuid (adding additional name spaces as necessary) 
+
+# In order to push, you need to authenticate to the internal OSE registry
+# You also need additonal policies applied to your userName
+oadm policy add-role-to-user admin userName -n openshift
+oadm policy add-rolt-to-user system:image-builder userName
+oadm policy add-rolt-to-user system:image-puller userName
+oadm policy add-rolt-to-user system:image-pruner userName
+oadm policy add-rolt-to-user system:image-pusher userName
+
+oc login -u userName
+docker login -u userName -p $(oc whoami -t) -e email@email (<-- doesn't need to be valid email) 172.30.X.X:5000 (<-- the internal registry service IP)
+
+## Example docker build
+
+cd yourProjectFolderThatContainsDockerfileAndAncillaryFiles
+
+docker build .
+
+docker tag imageID 172.30.X.X:5000/openshift/nameOfImage
+
+docker push 172.30.X.X:5000/openshift/nameOfImage
+
+# Deploy your new application
+
+oc new-app --insecure-registry 172.30.X.X:5000/openshift/nameOfImage --name nameOfApp -n yourNamespace
